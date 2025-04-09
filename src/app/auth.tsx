@@ -1,11 +1,10 @@
 'use client'
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/utils/supabaseClient'
 
 export default function Auth() {
-  const supabase = createClientComponentClient()
   const router = useRouter()
 
   useEffect(() => {
@@ -13,19 +12,19 @@ export default function Auth() {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${location.origin}/generate`, // Zielseite nach Login
+          redirectTo: `${location.origin}/generate`,
         },
       })
 
       if (error) {
         console.error('Fehler beim Login:', error.message)
       } else if (data?.url) {
-        window.location.href = data.url // Weiterleitung zur Google-Login-Seite
+        window.location.href = data.url
       }
     }
 
     login()
-  }, [router, supabase])
+  }, [router])
 
   return <p>Weiterleitung zu Google Login…</p>
 }
