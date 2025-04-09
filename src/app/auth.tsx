@@ -16,13 +16,13 @@ export default function Auth() {
 
       if (error) {
         console.error('Fehler beim Login:', error.message)
-      } else {
-        console.log('Erfolgreich eingeleitet:', data)
+      } else if (data?.url) {
+        router.push(data.url) // Weiterleitung zur Google Login-Seite
       }
     }
 
     login()
-  }, [])
+  }, [router, supabase])
 
   return <p>Weiterleitung zu Google Login…</p>
 }
